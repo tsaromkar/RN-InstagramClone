@@ -1,34 +1,59 @@
-import React, {useMemo} from 'react';
-import {Pressable, StyleSheet, Text} from 'react-native';
-import {View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import React, {useCallback} from 'react';
+import {StyleSheet, View} from 'react-native';
+
 import Button from '../Components/Button';
-import Layout from '../Components/Layout';
+import {ProfileData} from '../mock/ProfileData';
 import ProfileDetails from './ProfileDetails';
 import UserImages from './UserImages';
 
-const DEMO_IMAGES = [
-  'https://images.unsplash.com/photo-1661347334008-da5448d2a6cf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1668437843313-f65ffbc735ea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1668342433263-d9669a2e3b85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1668571350460-3b7bf36b87e5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1668369216554-5a91e506d1cf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzN3x8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1661347334008-da5448d2a6cf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1668437843313-f65ffbc735ea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1668342433263-d9669a2e3b85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1668571350460-3b7bf36b87e5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1668369216554-5a91e506d1cf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzN3x8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=60',
-];
-
 const Profile = () => {
+  const {
+    displayPicture,
+    fullName,
+    bio,
+    posts,
+    followers,
+    following,
+    userImages,
+    userName,
+    location,
+  } = ProfileData;
+  const navigation = useNavigation();
+
+  const handleNavigateToPost = useCallback(
+    (item: string) => {
+      navigation.navigate(
+        'Post' as never,
+        {
+          post: {
+            displayPicture,
+            userName,
+            location,
+            post: item,
+          },
+        } as never,
+      );
+    },
+    [displayPicture, location, navigation, userName],
+  );
+
   return (
     <View style={styles.container}>
-      <ProfileDetails />
+      <ProfileDetails
+        displayPicture={displayPicture}
+        fullName={fullName}
+        bio={bio}
+        posts={posts}
+        followers={followers}
+        following={following}
+      />
       <Button
         label="Edit Profile"
         onButtonPress={() => console.log('Edit Profile')}
       />
       <View style={styles.divider} />
-      <UserImages images={DEMO_IMAGES} />
+      <UserImages images={userImages} navigateTo={handleNavigateToPost} />
     </View>
   );
 };

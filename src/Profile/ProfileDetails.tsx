@@ -1,18 +1,32 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+
 import DisplayPictureContainer from './DisplayPicture/DisplayPictureContainer';
+import {IProfileDetails} from './Profile.interface';
 import UserDetails from './UserDetails/UserDetails';
 import UserStatsContainer from './UserDetails/UserStatsContainer';
 
-export default function ProfileDetails() {
+export default function ProfileDetails(props: IProfileDetails) {
+  const {
+    displayPicture = '',
+    fullName = '',
+    bio = '',
+    posts = 0,
+    followers = 0,
+    following = 0,
+  } = props;
+
   return (
     <View>
       <View style={styles.displayImageContainer}>
-        <DisplayPictureContainer />
-        <UserStatsContainer />
+        <DisplayPictureContainer displayPicture={displayPicture} />
+        <UserStatsContainer
+          posts={posts}
+          followers={followers}
+          following={following}
+        />
       </View>
-      <UserDetails name="Chalee Green" bio="Coffee and Cats" />
+      <UserDetails name={fullName} bio={bio} />
     </View>
   );
 }

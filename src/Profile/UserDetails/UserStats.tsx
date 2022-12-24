@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+
 import {IUserStats} from '../Profile.interface';
 
 export default function UserStats(props: IUserStats) {

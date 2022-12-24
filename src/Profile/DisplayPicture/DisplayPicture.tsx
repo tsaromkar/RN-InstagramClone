@@ -1,18 +1,16 @@
 import React from 'react';
 import {Image, StyleSheet} from 'react-native';
 
-interface IDisplayPicture {
-  width: number;
-  height: number;
-}
+import {IDisplayPicture} from '../Profile.interface';
 
 export default function DisplayPicture(props: IDisplayPicture) {
-  const {width = 80, height = 80} = props;
+  const {displayPicture = '', width = 80, height = 80} = props;
+
   return (
     <Image
       style={[styles.image, {width: width, height: height}]}
       source={{
-        uri: 'https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg',
+        uri: displayPicture,
       }}
     />
   );

@@ -1,30 +1,26 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useCallback} from 'react';
+import React from 'react';
 import {FlatList, Image, Pressable, StyleSheet} from 'react-native';
+
 import {IUserImages} from './Profile.interface';
 
 const IMAGE_MARGIN = 0.7;
 
 export default function UserImages(props: IUserImages) {
-  const {images} = props;
-  const navigation = useNavigation();
-
-  const handleNavigateToPost = useCallback(() => {
-    navigation.navigate('Post' as never);
-  }, [navigation]);
+  const {images, navigateTo} = props;
 
   return (
     <FlatList
       style={styles.flatList}
       data={images}
       numColumns={3}
+      keyExtractor={(item, index) => item + index}
       renderItem={({item, index}) => {
         const leftMargin = index % 3 === 0 ? 0 : IMAGE_MARGIN;
         const rightMargin = (index + 1) % 3 === 0 ? 0 : IMAGE_MARGIN;
         return (
           <Pressable
             style={styles.imageContainer}
-            onPress={handleNavigateToPost}>
+            onPress={() => navigateTo(item)}>
             <Image
               style={[
                 styles.images,

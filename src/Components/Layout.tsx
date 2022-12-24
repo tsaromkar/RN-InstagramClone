@@ -9,6 +9,7 @@ interface ILayout {
 
 export default function Layout(props: ILayout) {
   const {top, mid, bottom} = props;
+
   return (
     <View>
       <View>{top}</View>
